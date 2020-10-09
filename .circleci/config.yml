@@ -1,13 +1,13 @@
 version: 2.1
 
 workflows:
-  test:
+  build:
     jobs:
-      - Node10:
+      - test:
           version: 10-stretch
-      - NodeLTS:
+      - test:
           version: lts-stretch
-      - NodeCurrentStretch:
+      - test:
           version: current-stretch
 
 jobs:
