@@ -1,7 +1,7 @@
 version: 2.1
 
 workflows:
-  build:
+  test:
     jobs:
       - Node10:
           version: 10-stretch
