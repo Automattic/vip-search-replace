@@ -26,8 +26,9 @@ describe( 'go-search-replace', () => {
 		} );
 	} );
 	describe( 'replace()', () => {
-		it( 'returns an instance of readable stream', () => {
-			expect( replace( readableStream, [ 'thing' ] ) ).toBeInstanceOf( Readable );
+		it( 'returns an instance of readable stream', async () => {
+			const result = await replace( readableStream, [ 'thing' ] );
+			expect( result ).toBeInstanceOf( Readable );
 		} );
 	} );
 } );
