@@ -1,0 +1,27 @@
+version: 2.1
+
+workflows:
+  build:
+    jobs:
+      - Node10:
+          version: 10-stretch
+      - NodeLTS:
+          version: lts-stretch
+      - NodeCurrentStretch:
+          version: current-stretch
+
+jobs:
+  test:
+    parameters:
+      version:
+        type: string
+
+    docker:
+      - image: circleci/node:<< parameters.version >>
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run: npm ci
+      - run: npm t
