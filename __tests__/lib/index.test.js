@@ -1,13 +1,43 @@
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
+const fs = require( 'fs' );
+const { expect } = require( '@jest/globals' );
 
-const { Readable, Writable } = require( 'stream' );
-const readableStream = new Readable( {
-	read() {
-		return true;
-	},
+jest.mock( 'child_process', () => {
+	return {
+		spawn() {
+			return {
+				on: () => true,
+				stdin: {
+					on: ( action, fn ) => true,
+					write: () => true,
+					end: () => true,
+					once: () => true,
+					emit: () => true,
+				},
+				stdout: {
+					on: ( action, fn ) => true,
+					updated: {},
+				},
+			};
+		},
+	};
 } );
-const writeableStream = new Writable();
+
+let readableStream, writeableStream;
+const readFilePath = __dirname + '/index.test.js';
+const writeFilePath = __dirname + '/writeStream.txt';
+
+beforeEach( () => {
+	readableStream = fs.createReadStream( readFilePath );
+	writeableStream = fs.createWriteStream( writeFilePath );
+} );
+
+afterEach( () => {
+	readableStream.close();
+	writeableStream.close();
+	fs.unlinkSync( writeFilePath );
+} );
 
 describe( 'go-search-replace', () => {
 	describe( 'validate()', () => {
@@ -26,9 +56,10 @@ describe( 'go-search-replace', () => {
 		} );
 	} );
 	describe( 'replace()', () => {
-		it( 'returns an instance of readable stream', async () => {
+		it( 'returns an instance of the stdout object', async () => {
 			const result = await replace( readableStream, [ 'thing' ] );
-			expect( result ).toBeInstanceOf( Readable );
+			expect( result ).toBeInstanceOf( Object );
+			expect( result ).toHaveProperty( 'updated' );
 		} );
 	} );
 } );
