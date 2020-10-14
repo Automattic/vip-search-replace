@@ -20,7 +20,7 @@ jobs:
       - image: circleci/node:<< parameters.version >>
 
     working_directory: ~/repo
-s
+
     steps:
       - checkout
       - run: npm ci
