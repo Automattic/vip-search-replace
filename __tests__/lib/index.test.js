@@ -9,14 +9,14 @@ jest.mock( 'child_process', () => {
 			return {
 				on: () => true,
 				stdin: {
-					on: ( action, fn ) => true,
+					on: () => true,
 					write: () => true,
 					end: () => true,
 					once: () => true,
 					emit: () => true,
 				},
 				stdout: {
-					on: ( action, fn ) => true,
+					on: () => true,
 					updated: {},
 				},
 			};
