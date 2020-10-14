@@ -25,3 +25,10 @@ jobs:
       - checkout
       - run: npm ci
       - run: npm t
+      - run: |
+          if [[ $CIRCLE_BRANCH == "master" && $CIRCLE_STAGE == "test-3"]]; then
+            echo "Running 'nlm release'";
+            npx nlm release;
+          else
+            echo "Not running nlm release!"; exit 1
+          fi
