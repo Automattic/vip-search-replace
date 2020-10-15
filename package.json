@@ -34,7 +34,7 @@
     "eslint-plugin-react": "^7.21.3",
     "eslint-plugin-wpcalypso": "^4.1.0",
     "jest": "^26.4.2",
-    "nlm": "^5.0.0"
+    "nlm": "^5.1.0"
   },
   "nlm": {
     "license": {
