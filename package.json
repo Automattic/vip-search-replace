@@ -19,7 +19,9 @@
     "url": "https://github.com/Automattic/vip-search-replace/issues"
   },
   "homepage": "https://github.com/Automattic/vip-search-replace#readme",
-  "goBinaryVersion": "0.0.5",
+  "bin": {
+    "go-search-replace": "bin/go-search-replace"
+  },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^4.19.1",
