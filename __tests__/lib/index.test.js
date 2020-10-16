@@ -3,34 +3,13 @@ const { replace, validate } = thisPackage;
 const fs = require( 'fs' );
 const { expect } = require( '@jest/globals' );
 
-jest.mock( 'child_process', () => {
-	return {
-		spawn() {
-			return {
-				on: () => true,
-				stdin: {
-					on: () => true,
-					write: () => true,
-					end: () => true,
-					once: () => true,
-					emit: () => true,
-				},
-				stdout: {
-					on: () => true,
-					updated: {},
-				},
-			};
-		},
-	};
-} );
-
 let readableStream, writeableStream;
-const readFilePath = __dirname + '/index.test.js';
-const writeFilePath = __dirname + '/writeStream.txt';
+const readFilePath = __dirname + '/in-sample.sql';
+const writeFilePath = __dirname + '/out-sample.sql';
 
 beforeEach( () => {
 	readableStream = fs.createReadStream( readFilePath );
-	writeableStream = fs.createWriteStream( writeFilePath );
+	writeableStream = fs.createWriteStream( writeFilePath, { encoding: 'utf8' } );
 } );
 
 afterEach( () => {
@@ -58,9 +37,17 @@ describe( 'go-search-replace', () => {
 	} );
 	describe( 'replace()', () => {
 		it( 'returns an instance of the stdout object', async () => {
-			const result = await replace( readableStream, [ 'thing' ] );
-			expect( result ).toBeInstanceOf( Object );
-			expect( result ).toHaveProperty( 'updated' );
+			const result = await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ] );
+			await new Promise( resolve => {
+				writeableStream.on( 'finish', () => {
+					resolve();
+				} );
+
+				result.pipe( writeableStream );
+			} );
+
+			const outFile = fs.readFileSync( writeFilePath ).toString();
+			expect( outFile ).toContain( 'thatdomain.com' );
 		} );
 	} );
 } );
