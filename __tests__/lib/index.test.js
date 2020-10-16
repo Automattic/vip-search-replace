@@ -37,6 +37,7 @@ afterEach( () => {
 	readableStream.close();
 	writeableStream.close();
 	fs.unlinkSync( writeFilePath );
+	fs.truncateSync( process.cwd() + '/bin/go-search-replace' );
 } );
 
 describe( 'go-search-replace', () => {
