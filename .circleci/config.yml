@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout
       - run: npm ci
-      - run: DEBUG="vip-search-replace:*" npm t
+      - run: npm t
       - run: |
           if [ "$CIRCLE_BRANCH" == "master" ] && [ "$CIRCLE_STAGE" == "test-3" ]; then
                 echo "Running nlm release";
