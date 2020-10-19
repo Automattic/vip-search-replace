@@ -37,7 +37,7 @@ describe( 'go-search-replace', () => {
 	} );
 	describe( 'replace()', () => {
 		it( 'returns an instance of the stdout object', async () => {
-			const binary = process.env.CI === true ? 'go-search-replace-test' : null;
+			const binary = process.env.CI === 'true' ? 'go-search-replace-test' : null;
 			const result = await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], binary );
 			await new Promise( resolve => {
 				writeableStream.on( 'finish', () => {
