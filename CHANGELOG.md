@@ -1,3 +1,13 @@
+### 1.0.2 - 2020-10-22
+
+* Fix: circleci config to only let the bot release - **[@markowsiak](https://github.com/markowsiak)** [#3](https://github.com/Automattic/vip-search-replace/pull/3)
+  - [`ab319c8`](https://github.com/Automattic/vip-search-replace/commit/ab319c863b0067cbd5da93f10e439a667c2d1e42) 🐛 **fix:** circleci config to only let the bot release
+* add something extra to test the bot - **[@markowsiak](https://github.com/markowsiak)** [#4](https://github.com/Automattic/vip-search-replace/pull/4)
+  - [`fa862fd`](https://github.com/Automattic/vip-search-replace/commit/fa862fda092142211d528193163f02d8d1907e0c) 🐛 **fix:** add something extra to test the bot
+* make nlm release run when circle user isn't the bot - **[@markowsiak](https://github.com/markowsiak)** [#5](https://github.com/Automattic/vip-search-replace/pull/5)
+  - [`819920d`](https://github.com/Automattic/vip-search-replace/commit/819920d69bdc569584fa80ec076596ecdd50983e) 🐛 **fix:** make nlm release run when circle user isn't the bot
+
+
 ### 1.0.1 - 2020-10-22
 
 * remove unnecessary comment - **[@markowsiak](https://github.com/markowsiak)** [#2](https://github.com/Automattic/vip-search-replace/pull/2)
