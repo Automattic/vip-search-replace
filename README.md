@@ -13,3 +13,18 @@ const result = await replace( readableStream, [ 'thisdomain.com', 'thatdomain.co
 
 result.pipe( writeableStream );
 ```
+
+## Contributing
+
+### Commit Messages
+
+This library uses nlm for package lifecycle management.  As a result all commit messages
+must follow the Angular Commit message format: https://github.com/angular/angular/blob/master/CONTRIBUTING.md#type
+
+### Tests
+
+To execute tests before committing your changes, run:
+
+```bash
+npm t
+```
