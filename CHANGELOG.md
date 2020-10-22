@@ -1,3 +1,9 @@
+### 1.0.1 - 2020-10-22
+
+* remove unnecessary comment - **[@markowsiak](https://github.com/markowsiak)** [#2](https://github.com/Automattic/vip-search-replace/pull/2)
+  - [`e2f7742`](https://github.com/Automattic/vip-search-replace/commit/e2f77427dcb67d08bea97ea8eb4bc8d1496fda24) 🐛 **fix:** remove unnecessary comment
+
+
 ### 1.0.0 - 2020-10-22
 
 * download the go binary needed for the customer computer - **[@markowsiak](https://github.com/markowsiak)** [#1](https://github.com/Automattic/vip-search-replace/pull/1)
