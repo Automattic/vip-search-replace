@@ -26,7 +26,7 @@ jobs:
       - run: npm ci
       - run: npm t
       - run: |
-          if [ "$CIRCLE_BRANCH" == "master" ] && [ "$CIRCLE_STAGE" == "test-3" ] && [ "$CIRCLE_USERNAME" == "wpcomvip-bot" ]; then
+          if [ "$CIRCLE_BRANCH" == "master" ] && [ "$CIRCLE_STAGE" == "test-3" ] && [ "$CIRCLE_USERNAME" != "wpcomvip-bot" ]; then
                 echo "Running nlm release";
                 npx nlm release;
           else
