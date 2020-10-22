@@ -1,13 +1,23 @@
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
+const fs = require( 'fs' );
+const { expect } = require( '@jest/globals' );
 
-const { Readable, Writable } = require( 'stream' );
-const readableStream = new Readable( {
-	read() {
-		return true;
-	},
+let readableStream, writeableStream;
+const readFilePath = __dirname + '/in-sample.sql';
+const writeFilePath = __dirname + '/out-sample.sql';
+
+beforeEach( () => {
+	readableStream = fs.createReadStream( readFilePath );
+	writeableStream = fs.createWriteStream( writeFilePath, { encoding: 'utf8' } );
 } );
-const writeableStream = new Writable();
+
+afterEach( () => {
+	readableStream.close();
+	writeableStream.close();
+	fs.unlinkSync( writeFilePath );
+	fs.truncateSync( process.cwd() + '/bin/go-search-replace' );
+} );
 
 describe( 'go-search-replace', () => {
 	describe( 'validate()', () => {
@@ -26,8 +36,19 @@ describe( 'go-search-replace', () => {
 		} );
 	} );
 	describe( 'replace()', () => {
-		it( 'returns an instance of readable stream', () => {
-			expect( replace( readableStream, [ 'thing' ] ) ).toBeInstanceOf( Readable );
+		it( 'returns an instance of the stdout object', async () => {
+			const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
+			const result = await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], binary );
+			await new Promise( resolve => {
+				writeableStream.on( 'finish', () => {
+					resolve();
+				} );
+
+				result.pipe( writeableStream );
+			} );
+
+			const outFile = fs.readFileSync( writeFilePath ).toString();
+			expect( outFile ).toContain( 'thatdomain.com' );
 		} );
 	} );
 } );
