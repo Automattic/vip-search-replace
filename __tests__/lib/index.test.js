@@ -1,11 +1,14 @@
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
 const fs = require( 'fs' );
+const path = require( 'path' );
 const { expect } = require( '@jest/globals' );
 
+const processPath = process.cwd();
+
 let readableStream, writeableStream;
-const readFilePath = __dirname + '/in-sample.sql';
-const writeFilePath = __dirname + '/out-sample.sql';
+const readFilePath = path.join( processPath, '__tests__', 'lib', 'in-sample.sql' );
+const writeFilePath = path.join( processPath, '__tests__', 'lib', 'out-sample.sql' );
 
 beforeEach( () => {
 	readableStream = fs.createReadStream( readFilePath );
@@ -16,7 +19,7 @@ afterEach( () => {
 	readableStream.close();
 	writeableStream.close();
 	fs.unlinkSync( writeFilePath );
-	fs.truncateSync( process.cwd() + '/bin/go-search-replace' );
+	fs.truncateSync( path.join( processPath, 'bin', 'go-search-replace' ) );
 } );
 
 async function testHarness( replacements ) {
