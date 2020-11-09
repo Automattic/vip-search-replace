@@ -19,6 +19,22 @@ afterEach( () => {
 	fs.truncateSync( process.cwd() + '/bin/go-search-replace' );
 } );
 
+async function testHarness( replacements ) {
+	const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
+	const result = await replace( readableStream, replacements, binary );
+	await new Promise( resolve => {
+		writeableStream.on( 'finish', () => {
+			resolve();
+		} );
+
+		result.pipe( writeableStream );
+	} );
+
+	const outFile = fs.readFileSync( writeFilePath ).toString();
+
+	return { result, outFile };
+}
+
 describe( 'go-search-replace', () => {
 	describe( 'validate()', () => {
 		it( 'fails if a readable stream is not passed as the first argument', () => {
@@ -37,18 +53,14 @@ describe( 'go-search-replace', () => {
 	} );
 	describe( 'replace()', () => {
 		it( 'returns an instance of the stdout object', async () => {
-			const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
-			const result = await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], binary );
-			await new Promise( resolve => {
-				writeableStream.on( 'finish', () => {
-					resolve();
-				} );
-
-				result.pipe( writeableStream );
-			} );
-
-			const outFile = fs.readFileSync( writeFilePath ).toString();
+			const { outFile } = await testHarness( [ 'thisdomain.com', 'thatdomain.com' ] );
 			expect( outFile ).toContain( 'thatdomain.com' );
+		} );
+
+		it( 'returns the original stream if no replacements are in the array', async () => {
+			const { result, outFile } = await testHarness( [] );
+			expect( result ).toEqual( readableStream );
+			expect( outFile ).toContain( 'thisdomain.com' );
 		} );
 	} );
 } );
