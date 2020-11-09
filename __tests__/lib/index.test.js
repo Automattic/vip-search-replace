@@ -18,7 +18,9 @@ beforeEach( () => {
 afterEach( () => {
 	readableStream.close();
 	writeableStream.close();
-	fs.unlinkSync( writeFilePath );
+	if ( fs.existsSync( writeFilePath ) ) {
+		fs.unlinkSync( writeFilePath );
+	}
 	fs.truncateSync( path.join( processPath, 'bin', 'go-search-replace' ) );
 } );
 
