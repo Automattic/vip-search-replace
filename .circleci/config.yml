@@ -4,10 +4,13 @@ workflows:
   build:
     jobs:
       - test:
+          name: 10-stretch
           version: 10-stretch
       - test:
+          name: lts-stretch
           version: lts-stretch
       - test:
+          name: current-stretch
           version: current-stretch
 
 jobs:
