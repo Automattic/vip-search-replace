@@ -1,3 +1,13 @@
+### 1.0.3 - 2020-11-10
+
+* return the original stream if no replacements are passed - **[@markowsiak](https://github.com/markowsiak)** [#6](https://github.com/Automattic/vip-search-replace/pull/6)
+  - [`70b5cb9`](https://github.com/Automattic/vip-search-replace/commit/70b5cb98bc5c5aa41d72d67f8ce18fbf1bb34f85) 🐛 **fix:** return the original stream if no replacements are passed
+  - [`c0a9b9b`](https://github.com/Automattic/vip-search-replace/commit/c0a9b9b6199a26de6dc350b6f561839464774586) ♻️ **chore:** name the circleci jobs
+  - [`0f1ddea`](https://github.com/Automattic/vip-search-replace/commit/0f1ddea4926176059449ed35a4176f95ba65643c) ✅ **test:** use path.join instead of dirname, attempting to fix current-stretch issue
+  - [`1123cbb`](https://github.com/Automattic/vip-search-replace/commit/1123cbbe4c4a30bce3ba3dcfc6421bb0b782ef40) 🐛 **fix:** release on lts-stretch and check for outfile before deleting
+  - [`2f98495`](https://github.com/Automattic/vip-search-replace/commit/2f984955bd53b84b8cf81a234275d4bf3ddf68ec) 🐛 **fix:** address PR comments for using debug and having more complete tests
+
+
 ### 1.0.2 - 2020-10-22
 
 * Fix: circleci config to only let the bot release - **[@markowsiak](https://github.com/markowsiak)** [#3](https://github.com/Automattic/vip-search-replace/pull/3)
