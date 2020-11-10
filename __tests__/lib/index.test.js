@@ -60,12 +60,14 @@ describe( 'go-search-replace', () => {
 		it( 'returns an instance of the stdout object', async () => {
 			const { outFile } = await testHarness( [ 'thisdomain.com', 'thatdomain.com' ] );
 			expect( outFile ).toContain( 'thatdomain.com' );
+			expect( outFile ).not.toContain( 'thisdomain.com' );
 		} );
 
 		it( 'returns the original stream if no replacements are in the array', async () => {
 			const { result, outFile } = await testHarness( [] );
 			expect( result ).toEqual( readableStream );
 			expect( outFile ).toContain( 'thisdomain.com' );
+			expect( outFile ).not.toContain( 'thatdomain.com' );
 		} );
 	} );
 } );
