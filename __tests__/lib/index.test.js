@@ -1,11 +1,14 @@
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
 const fs = require( 'fs' );
+const path = require( 'path' );
 const { expect } = require( '@jest/globals' );
 
+const processPath = process.cwd();
+
 let readableStream, writeableStream;
-const readFilePath = __dirname + '/in-sample.sql';
-const writeFilePath = __dirname + '/out-sample.sql';
+const readFilePath = path.join( processPath, '__tests__', 'lib', 'in-sample.sql' );
+const writeFilePath = path.join( processPath, '__tests__', 'lib', 'out-sample.sql' );
 
 beforeEach( () => {
 	readableStream = fs.createReadStream( readFilePath );
@@ -15,9 +18,27 @@ beforeEach( () => {
 afterEach( () => {
 	readableStream.close();
 	writeableStream.close();
-	fs.unlinkSync( writeFilePath );
-	fs.truncateSync( process.cwd() + '/bin/go-search-replace' );
+	if ( fs.existsSync( writeFilePath ) ) {
+		fs.unlinkSync( writeFilePath );
+	}
+	fs.truncateSync( path.join( processPath, 'bin', 'go-search-replace' ) );
 } );
+
+async function testHarness( replacements ) {
+	const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
+	const result = await replace( readableStream, replacements, binary );
+	await new Promise( resolve => {
+		writeableStream.on( 'finish', () => {
+			resolve();
+		} );
+
+		result.pipe( writeableStream );
+	} );
+
+	const outFile = fs.readFileSync( writeFilePath ).toString();
+
+	return { result, outFile };
+}
 
 describe( 'go-search-replace', () => {
 	describe( 'validate()', () => {
@@ -37,18 +58,16 @@ describe( 'go-search-replace', () => {
 	} );
 	describe( 'replace()', () => {
 		it( 'returns an instance of the stdout object', async () => {
-			const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
-			const result = await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], binary );
-			await new Promise( resolve => {
-				writeableStream.on( 'finish', () => {
-					resolve();
-				} );
-
-				result.pipe( writeableStream );
-			} );
-
-			const outFile = fs.readFileSync( writeFilePath ).toString();
+			const { outFile } = await testHarness( [ 'thisdomain.com', 'thatdomain.com' ] );
 			expect( outFile ).toContain( 'thatdomain.com' );
+			expect( outFile ).not.toContain( 'thisdomain.com' );
+		} );
+
+		it( 'returns the original stream if no replacements are in the array', async () => {
+			const { result, outFile } = await testHarness( [] );
+			expect( result ).toEqual( readableStream );
+			expect( outFile ).toContain( 'thisdomain.com' );
+			expect( outFile ).not.toContain( 'thatdomain.com' );
 		} );
 	} );
 } );
