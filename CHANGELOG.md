@@ -1,3 +1,9 @@
+### 1.0.5 - 2020-12-01
+
+* perf: Download using the 'latest release' redirect URL - **[@jblz](https://github.com/jblz)** [#8](https://github.com/Automattic/vip-search-replace/pull/8)
+  - [`b8b3146`](https://github.com/Automattic/vip-search-replace/commit/b8b314619004dbe1d9bd4da3ba1d3450292e9267) ⚡ **perf:** Download using the 'latest release' redirect URL
+
+
 ### 1.0.4 - 2020-12-01
 
 * fix: Incorrect path is used for downloaded binary - **[@jblz](https://github.com/jblz)** [#7](https://github.com/Automattic/vip-search-replace/pull/7)
