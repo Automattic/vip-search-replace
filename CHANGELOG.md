@@ -1,3 +1,9 @@
+### 1.0.4 - 2020-12-01
+
+* fix: Incorrect path is used for downloaded binary - **[@jblz](https://github.com/jblz)** [#7](https://github.com/Automattic/vip-search-replace/pull/7)
+  - [`cd3232d`](https://github.com/Automattic/vip-search-replace/commit/cd3232d35c8de76bd067a052efe3904d6a3522d7) 🐛 **fix:** Incorrect path is used for downloaded binary
+
+
 ### 1.0.3 - 2020-11-10
 
 * return the original stream if no replacements are passed - **[@markowsiak](https://github.com/markowsiak)** [#6](https://github.com/Automattic/vip-search-replace/pull/6)
