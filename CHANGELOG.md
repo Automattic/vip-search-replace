@@ -1,3 +1,9 @@
+### 1.0.6 - 2020-12-08
+
+* fix: get-test-binary script bad variable - **[@jblz](https://github.com/jblz)** [#9](https://github.com/Automattic/vip-search-replace/pull/9)
+  - [`ed54ca0`](https://github.com/Automattic/vip-search-replace/commit/ed54ca0954c6d50076169fee6edb2ccde1e5fd4b) 🐛 **fix:** get-test-binary script bad var
+
+
 ### 1.0.5 - 2020-12-01
 
 * perf: Download using the 'latest release' redirect URL - **[@jblz](https://github.com/jblz)** [#8](https://github.com/Automattic/vip-search-replace/pull/8)
