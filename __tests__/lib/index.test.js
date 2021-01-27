@@ -76,17 +76,14 @@ describe( 'go-search-replace', () => {
 		} );
 
 		it( 'throws a new Error when the script/binary returns a non-zero exit code', () => {
-			async function whatever() {
+			async function asyncFunc() {
 				try {
 					await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
 				} catch ( error ) {
 					throw new Error( error );
 				}
 			}
-			expect( whatever()
-				.catch( error => {
-					throw new Error( error );
-				} ) )
+			expect( asyncFunc() )
 				.rejects
 				.toThrowError( 'The search and replace process exited with a non-zero exit code: 1' );
 		} );
