@@ -9,6 +9,7 @@ const processPath = process.cwd();
 let readableStream, writeableStream;
 const readFilePath = path.join( processPath, '__tests__', 'lib', 'in-sample.sql' );
 const writeFilePath = path.join( processPath, '__tests__', 'lib', 'out-sample.sql' );
+const nonZeroExitCodeScript = path.join( processPath, 'bin', 'non-zero-exit-code.sh' );
 
 beforeEach( () => {
 	readableStream = fs.createReadStream( readFilePath );
@@ -24,9 +25,10 @@ afterEach( () => {
 	fs.truncateSync( path.join( processPath, 'bin', 'go-search-replace' ) );
 } );
 
-async function testHarness( replacements ) {
+async function testHarness( replacements, customScript = null ) {
 	const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
-	const result = await replace( readableStream, replacements, binary );
+	const script = customScript || binary;
+	const result = await replace( readableStream, replacements, script );
 	await new Promise( resolve => {
 		writeableStream.on( 'finish', () => {
 			resolve();
@@ -35,7 +37,10 @@ async function testHarness( replacements ) {
 		result.pipe( writeableStream );
 	} );
 
-	const outFile = fs.readFileSync( writeFilePath ).toString();
+	let outFile;
+	if ( fs.existsSync( writeFilePath ) ) {
+		outFile = fs.readFileSync( writeFilePath ).toString();
+	}
 
 	return { result, outFile };
 }
@@ -68,6 +73,22 @@ describe( 'go-search-replace', () => {
 			expect( result ).toEqual( readableStream );
 			expect( outFile ).toContain( 'thisdomain.com' );
 			expect( outFile ).not.toContain( 'thatdomain.com' );
+		} );
+
+		it( 'throws a new Error when the script/binary returns a non-zero exit code', () => {
+			async function whatever() {
+				try {
+					await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
+				} catch ( error ) {
+					throw new Error( error );
+				}
+			}
+			expect( whatever()
+				.catch( error => {
+					throw new Error( error );
+				} ) )
+				.rejects
+				.toThrowError( 'The search and replace process exited with a non-zero exit code: 1' );
 		} );
 	} );
 } );
