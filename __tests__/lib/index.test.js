@@ -3,6 +3,7 @@ const { replace, validate } = thisPackage;
 const fs = require( 'fs' );
 const path = require( 'path' );
 const { expect } = require( '@jest/globals' );
+const debug = require( 'debug' )( 'vip-search-replace:index.test' );
 
 const processPath = process.cwd();
 
@@ -26,6 +27,7 @@ afterEach( () => {
 } );
 
 async function testHarness( replacements, customScript = null ) {
+	debug( replacements, customScript );
 	const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
 	const script = customScript || binary;
 	const result = await replace( readableStream, replacements, script );
@@ -38,8 +40,9 @@ async function testHarness( replacements, customScript = null ) {
 	} );
 
 	let outFile;
+	debug( 'outfile exists:', fs.existsSync( writeFilePath ) );
 	if ( fs.existsSync( writeFilePath ) ) {
-		outFile = fs.readFileSync( writeFilePath ).toString();
+		outFile = fs.readFileSync( writeFilePath, 'utf-8' );
 	}
 
 	return { result, outFile };
@@ -75,17 +78,17 @@ describe( 'go-search-replace', () => {
 			expect( outFile ).not.toContain( 'thatdomain.com' );
 		} );
 
-		it( 'throws a new Error when the script/binary returns a non-zero exit code', () => {
-			async function asyncFunc() {
+		it( 'throws a new Error when the script/binary returns a non-zero exit code', async () => {
+			async function check() {
 				try {
-					await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
-				} catch ( error ) {
-					throw new Error( error );
+					//await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
+					await testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
+				} catch ( e ) {
+					throw new Error( e );
 				}
 			}
-			expect( asyncFunc() )
-				.rejects
-				.toThrowError( 'The search and replace process exited with a non-zero exit code: 1' );
+
+			expect( check() ).rejects.toThrowError( new Error( 'The search and replace process exited with a non-zero exit code: 1' ) );
 		} );
 	} );
 } );
