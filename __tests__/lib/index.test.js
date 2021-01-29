@@ -82,7 +82,7 @@ describe( 'go-search-replace', () => {
 			async function check() {
 				try {
 					//await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
-					await testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
+					return await testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
 				} catch ( e ) {
 					throw new Error( e );
 				}
