@@ -1,3 +1,14 @@
+### 1.0.7 - 2021-01-29
+
+* Listen for a non-zero exit code from the go-search-replace process - **[@markowsiak](https://github.com/markowsiak)** [#10](https://github.com/Automattic/vip-search-replace/pull/10)
+  - [`75a74eb`](https://github.com/Automattic/vip-search-replace/commit/75a74eb7d943ea5eee706c1183fc266cf35f9fec) 🐛 **fix:** Listen for a non-zero exit code from the go-search-replace process
+  - [`ff7eca5`](https://github.com/Automattic/vip-search-replace/commit/ff7eca572b3a2b35c063c48a5ca24422866dc94e) ✅ **test:** Test for non-zero exit codes
+  - [`f61bcc9`](https://github.com/Automattic/vip-search-replace/commit/f61bcc93f9377fc10082047ce393a0bfc7bf0002) 🐛 **fix:** Test cleanup and troubleshooting
+  - [`bc49a9b`](https://github.com/Automattic/vip-search-replace/commit/bc49a9bdfc1039efe31f84aec14fd3e2c6927fc6) 🐛 **fix:** More debugging of go library exit code and exceptions in async functions
+  - [`acc002e`](https://github.com/Automattic/vip-search-replace/commit/acc002edcc6784a32e9aa4657c681a0749e543ff) 🐛 **fix:** Have replace return a Promise, and use rejections
+  - [`02325ac`](https://github.com/Automattic/vip-search-replace/commit/02325ac1cf65a7e6ee61a6f78846e67d2ffbafec) ✅ **test:** write to a tmpdir
+
+
 ### 1.0.6 - 2020-12-08
 
 * fix: get-test-binary script bad variable - **[@jblz](https://github.com/jblz)** [#9](https://github.com/Automattic/vip-search-replace/pull/9)
