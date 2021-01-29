@@ -1,14 +1,18 @@
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
 const fs = require( 'fs' );
+const os = require( 'os' );
 const path = require( 'path' );
 const { expect } = require( '@jest/globals' );
+const debug = require( 'debug' )( 'vip-search-replace:index.test' );
 
 const processPath = process.cwd();
 
 let readableStream, writeableStream;
+const tmpDir = fs.mkdtempSync( path.join( os.tmpdir(), 'vip-search-replace-tests-' ) );
 const readFilePath = path.join( processPath, '__tests__', 'lib', 'in-sample.sql' );
-const writeFilePath = path.join( processPath, '__tests__', 'lib', 'out-sample.sql' );
+const writeFilePath = path.join( tmpDir, 'out-sample.sql' );
+const nonZeroExitCodeScript = path.join( processPath, 'bin', 'non-zero-exit-code.sh' );
 
 beforeEach( () => {
 	readableStream = fs.createReadStream( readFilePath );
@@ -24,9 +28,11 @@ afterEach( () => {
 	fs.truncateSync( path.join( processPath, 'bin', 'go-search-replace' ) );
 } );
 
-async function testHarness( replacements ) {
+async function testHarness( replacements, customScript = null ) {
+	debug( replacements, customScript );
 	const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
-	const result = await replace( readableStream, replacements, binary );
+	const script = customScript || binary;
+	const result = await replace( readableStream, replacements, script );
 	await new Promise( resolve => {
 		writeableStream.on( 'finish', () => {
 			resolve();
@@ -35,7 +41,11 @@ async function testHarness( replacements ) {
 		result.pipe( writeableStream );
 	} );
 
-	const outFile = fs.readFileSync( writeFilePath ).toString();
+	let outFile;
+	debug( 'outfile exists:', fs.existsSync( writeFilePath ) );
+	if ( fs.existsSync( writeFilePath ) ) {
+		outFile = fs.readFileSync( writeFilePath, 'utf-8' );
+	}
 
 	return { result, outFile };
 }
@@ -68,6 +78,19 @@ describe( 'go-search-replace', () => {
 			expect( result ).toEqual( readableStream );
 			expect( outFile ).toContain( 'thisdomain.com' );
 			expect( outFile ).not.toContain( 'thatdomain.com' );
+		} );
+
+		it( 'throws a new Error when the script/binary returns a non-zero exit code', async () => {
+			async function check() {
+				try {
+					//await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
+					return await testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
+				} catch ( e ) {
+					throw new Error( e );
+				}
+			}
+
+			expect( check() ).rejects.toThrowError( new Error( 'The search and replace process exited with a non-zero exit code: 1' ) );
 		} );
 	} );
 } );
