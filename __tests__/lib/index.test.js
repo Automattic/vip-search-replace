@@ -1,6 +1,7 @@
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
 const fs = require( 'fs' );
+const os = require( 'os' );
 const path = require( 'path' );
 const { expect } = require( '@jest/globals' );
 const debug = require( 'debug' )( 'vip-search-replace:index.test' );
@@ -8,8 +9,9 @@ const debug = require( 'debug' )( 'vip-search-replace:index.test' );
 const processPath = process.cwd();
 
 let readableStream, writeableStream;
+const tmpDir = fs.mkdtempSync( path.join( os.tmpdir(), 'vip-search-replace-tests-' ) );
 const readFilePath = path.join( processPath, '__tests__', 'lib', 'in-sample.sql' );
-const writeFilePath = path.join( processPath, '__tests__', 'lib', 'out-sample.sql' );
+const writeFilePath = path.join( tmpDir, 'out-sample.sql' );
 const nonZeroExitCodeScript = path.join( processPath, 'bin', 'non-zero-exit-code.sh' );
 
 beforeEach( () => {
