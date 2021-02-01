@@ -1,3 +1,10 @@
+### 1.0.10 - 2021-02-01
+
+* fix: Don't block at all, just return output stream - **[@jblz](https://github.com/jblz)** [#13](https://github.com/Automattic/vip-search-replace/pull/13)
+  - [`05a0a71`](https://github.com/Automattic/vip-search-replace/commit/05a0a7161b82eba3bba43b1b48b34298393f87b1) 🐛 **fix:** Don't block at all, just return output stream
+  - [`81902c1`](https://github.com/Automattic/vip-search-replace/commit/81902c1e79895d5899e460ea7d56734da88513e1) 🐛 **fix:** return a passthrough instead of child's stdout & resolve on data
+
+
 ### 1.0.9 - 2021-02-01
 
 * [`a9124e5`](https://github.com/Automattic/vip-search-replace/commit/a9124e505512bf4dfd194cc2748cd1a856bb899f) 🐛 **fix:** Attach stream listeners prior to starting flow
