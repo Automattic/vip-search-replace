@@ -1,3 +1,11 @@
+### 1.0.8 - 2021-02-01
+
+* fix: hanging output stream - **[@markowsiak](https://github.com/markowsiak)** [#11](https://github.com/Automattic/vip-search-replace/pull/11)
+  - [`93196f5`](https://github.com/Automattic/vip-search-replace/commit/93196f501b76e193c3488cb43a5c486ae037bdac) 🐛 **fix:** hanging output stream
+  - [`020ac61`](https://github.com/Automattic/vip-search-replace/commit/020ac618b2675ef23137cc865a8f3a38d5f2b744) 🐛 **fix:** block until stream closes
+  - [`88026e7`](https://github.com/Automattic/vip-search-replace/commit/88026e742230cc31b0d575292aa9413306eb5916) 🐛 **fix:** listen for the exit event on child_process instead of close, emits after child process ends
+
+
 ### 1.0.7 - 2021-01-29
 
 * Listen for a non-zero exit code from the go-search-replace process - **[@markowsiak](https://github.com/markowsiak)** [#10](https://github.com/Automattic/vip-search-replace/pull/10)
