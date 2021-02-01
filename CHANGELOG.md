@@ -1,3 +1,8 @@
+### 1.0.9 - 2021-02-01
+
+* [`a9124e5`](https://github.com/Automattic/vip-search-replace/commit/a9124e505512bf4dfd194cc2748cd1a856bb899f) 🐛 **fix:** Attach stream listeners prior to starting flow
+
+
 ### 1.0.8 - 2021-02-01
 
 * fix: hanging output stream - **[@markowsiak](https://github.com/markowsiak)** [#11](https://github.com/Automattic/vip-search-replace/pull/11)
