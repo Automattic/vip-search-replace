@@ -8,7 +8,7 @@
     "download-test-binary": "npm run download-binary linux x64 ./bin/go-search-replace-test",
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "jest --silent",
+    "test": "jest",
     "posttest": "nlm verify"
   },
   "repository": {
@@ -35,7 +35,8 @@
     "eslint-plugin-react": "^7.21.3",
     "eslint-plugin-wpcalypso": "^4.1.0",
     "jest": "^26.4.2",
-    "nlm": "^5.1.0"
+    "nlm": "^5.1.0",
+    "nock": "^13.0.7"
   },
   "nlm": {
     "license": {

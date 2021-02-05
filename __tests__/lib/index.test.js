@@ -1,11 +1,27 @@
-const thisPackage = require( '../../' );
-const { replace, validate } = thisPackage;
+/**
+ * External dependencies
+ */
+const nock = require( 'nock' );
 const fs = require( 'fs' );
 const os = require( 'os' );
 const path = require( 'path' );
+const { Stream } = require( 'stream' );
 const { expect } = require( '@jest/globals' );
-const debug = require( 'debug' )( 'vip-search-replace:index.test' );
+const debugFactory = require( 'debug' );
 
+/**
+ * External dependencies
+ */
+const thisPackage = require( '../../' );
+const { replace, validate } = thisPackage;
+const {
+	ARCH_MAPPING,
+	downloadBinary,
+	getLatestReleaseUrlForPlatformAndArch,
+	PLATFORM_MAPPING,
+} = require( '../../lib/install-go-binary' );
+
+const debug = debugFactory( 'vip-search-replace:index.test' );
 const processPath = process.cwd();
 
 let readableStream, writeableStream;
@@ -51,18 +67,31 @@ async function testHarness( replacements, customScript = null ) {
 
 describe( 'go-search-replace', () => {
 	describe( 'validate()', () => {
+		const consoleSpy = jest.spyOn( console, 'error' ).mockImplementation();
+
+		beforeEach( () => {
+			consoleSpy.mockClear();
+		} );
+
 		it( 'fails if a readable stream is not passed as the first argument', () => {
 			expect( validate( writeableStream, [ 'thing' ] ) ).toBe( false );
+			expect( console.error ).toHaveBeenLastCalledWith( 'The first argument must be an instance of a Readable stream.' );
+			expect( console.error ).toHaveBeenCalledTimes( 1 );
 		} );
 
 		it( 'fails if an array is not passed as the second argument', () => {
 			expect( validate( readableStream, 'replace-string' ) ).toBe( false );
+			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be a array.' );
 			expect( validate( readableStream, 234 ) ).toBe( false );
+			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be a array.' );
 			expect( validate( readableStream, new Set( [ 'thing' ] ) ) ).toBe( false );
+			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be a array.' );
+			expect( console.error ).toHaveBeenCalledTimes( 3 );
 		} );
 
 		it( 'passes if a readable stream is passed as the first argument', () => {
 			expect( validate( readableStream, [ 'thing' ] ) ).toBe( true );
+			expect( console.error ).not.toHaveBeenCalled();
 		} );
 	} );
 	describe( 'replace()', () => {
@@ -90,6 +119,89 @@ describe( 'go-search-replace', () => {
 			}
 
 			expect( check() ).rejects.toThrowError( new Error( 'The search and replace process exited with a non-zero exit code: 1' ) );
+		} );
+	} );
+} );
+
+describe( 'install-go-binary', () => {
+	describe( 'CONSTANTS', () => {
+		it( 'should have correct arch mappings', () => {
+			expect( ARCH_MAPPING ).toEqual( {
+				ia32: '386',
+				x64: 'amd64',
+				arm: 'arm',
+			} );
+		} );
+	} );
+
+	it( 'should have correct platform mappings', () => {
+		expect( PLATFORM_MAPPING ).toEqual( {
+			darwin: 'darwin',
+			linux: 'linux',
+			win32: 'windows',
+			freebsd: 'freebsd',
+		} );
+	} );
+
+	describe( 'getLatestReleaseUrlForPlatformAndArch()', () => {
+		it( 'should get a proper macintel env url', () => {
+			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'x64', platform: 'darwin' } );
+			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_darwin_amd64.gz' );
+		} );
+
+		it( 'should get a proper macm1 env url', () => {
+			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'arm', platform: 'darwin' } );
+			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_darwin_arm.gz' );
+		} );
+
+		it( 'should get a proper linux / CI test env url', () => {
+			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'x64', platform: 'linux' } );
+			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_linux_amd64.gz' );
+		} );
+
+		it( 'should get a proper alternative env url', () => {
+			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'arm', platform: 'freebsd' } );
+			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_freebsd_arm.gz' );
+		} );
+
+		it( 'should get a proper windows url', () => {
+			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'ia32', platform: 'win32' } );
+			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_windows_386.exe.gz' );
+		} );
+
+		it( 'should throw for invalid arch', () => {
+			expect( () => getLatestReleaseUrlForPlatformAndArch( { arch: 'gibberish', platform: 'win32' } ) ).toThrow( new Error( 'Invalid arch type' ) );
+		} );
+
+		it( 'should throw for invalid platform', () => {
+			expect( () => getLatestReleaseUrlForPlatformAndArch( { arch: 'ia32', platform: 'gibberish' } ) ).toThrow( new Error( 'Invalid platform type' ) );
+		} );
+	} );
+
+	describe( 'downloadBinary()', () => {
+		beforeEach( () => {
+			nock.cleanAll();
+			nock.enableNetConnect();
+		} );
+
+		it( 'should return a readable stream', async () => {
+			nock( 'https://github.com' )
+				.get( '/Automattic/go-search-replace/releases/latest/download/go-search-replace_darwin_amd64.gz' )
+				.reply( 200 );
+
+			const downloadStream = await downloadBinary( { arch: 'x64', platform: 'darwin' } );
+			expect( downloadStream instanceof Stream ).toBe( true );
+			expect( typeof downloadStream.read ).toBe( 'function' );
+		} );
+
+		it( 'should fail for unsupported platform', async () => {
+			nock.disableNetConnect(); // no calls should be made
+			await expect( downloadBinary( { arch: 'ia32', platform: 'gibberish' } ) ).rejects.toEqual( new Error( 'Invalid platform type' ) );
+		} );
+
+		it( 'should fail for unsupported platform', async () => {
+			nock.disableNetConnect(); // no calls should be made
+			return expect( downloadBinary( { arch: 'gibberish', platform: 'win32' } ) ).rejects.toEqual( new Error( 'Invalid arch type' ) );
 		} );
 	} );
 } );
