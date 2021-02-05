@@ -4,7 +4,8 @@
   "description": "A Node package interface to a Go powered search and replace package",
   "main": "lib/index.js",
   "scripts": {
-    "download-test-binary": "node lib/get-test-binary.js",
+    "download-binary": "node ./bin/install-binary",
+    "download-test-binary": "npm run download-binary linux x64 ./bin/go-search-replace-test",
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "jest --silent",
@@ -20,10 +21,6 @@
     "url": "https://github.com/Automattic/vip-search-replace/issues"
   },
   "homepage": "https://github.com/Automattic/vip-search-replace#readme",
-  "bin": {
-    "go-search-replace": "bin/go-search-replace",
-    "go-search-replace-test": "bin/go-search-replace-test"
-  },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^4.19.1",
