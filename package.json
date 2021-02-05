@@ -40,6 +40,7 @@
   "nlm": {
     "license": {
       "files": [
+        "bin",
         "lib",
         "test"
       ]
