@@ -25,7 +25,6 @@ afterEach( () => {
 	if ( fs.existsSync( writeFilePath ) ) {
 		fs.unlinkSync( writeFilePath );
 	}
-	fs.truncateSync( path.join( processPath, 'bin', 'go-search-replace' ) );
 } );
 
 async function testHarness( replacements, customScript = null ) {
