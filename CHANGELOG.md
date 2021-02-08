@@ -1,3 +1,18 @@
+### 1.0.11 - 2021-02-08
+
+* Refactor install lib and script -- download binary to package dir - **[@jblz](https://github.com/jblz)** [#14](https://github.com/Automattic/vip-search-replace/pull/14)
+  - [`70968d7`](https://github.com/Automattic/vip-search-replace/commit/70968d7d5c977165e6f4c2884745ddeeb37839cc) 📝 **docs:** update copyright date
+  - [`ef8481f`](https://github.com/Automattic/vip-search-replace/commit/ef8481ff10317f93eebfda8ab9f815e0cd7ff898) 👷 **build:** mv download script to bin; hashbang; 755
+  - [`b5a4676`](https://github.com/Automattic/vip-search-replace/commit/b5a467635605ab25b48eb686800228822dc23073) 👷 **build:** remove empty binary and add path to gitignore
+  - [`bb8e4b1`](https://github.com/Automattic/vip-search-replace/commit/bb8e4b1acd752d1d1372f5db90819cbdeab41b4c) ✅ **test:** don't truncate bin after tests
+  - [`510d7a1`](https://github.com/Automattic/vip-search-replace/commit/510d7a1222278e4bf3fc3ec3704e83d8a6aae822) 📦️ **refactor:** split out functions, return format, gz instance per call, etc.
+  - [`44ebab3`](https://github.com/Automattic/vip-search-replace/commit/44ebab3e800bc6e29c5fb38b495921dc98d06a42) 📦️ **refactor:** install script: support passed args; handle errors; show usage examples
+  - [`b37a103`](https://github.com/Automattic/vip-search-replace/commit/b37a10354ca9f58017f6bfbe653025c9729c7581) 👷 **build:** package scripts: generally useful, download-binary; download-test-binary calls it
+  - [`9213e15`](https://github.com/Automattic/vip-search-replace/commit/9213e15bd69fdb1ad07e4d33f1007337e97f1342) 👷 **build:** Include bin in nlm license files
+  - [`fcfb973`](https://github.com/Automattic/vip-search-replace/commit/fcfb9731ed9cbfae04ea11a4b821d1032476ae1c) ✅ **test:** coverage++; nock download URL; jest --silent, no more
+  - [`f29d7cb`](https://github.com/Automattic/vip-search-replace/commit/f29d7cbc9411426ca11da0e59d44fb8b4dec966c) 🐛 **fix:** Include .exe suffix in windows bin file
+
+
 ### 1.0.10 - 2021-02-01
 
 * fix: Don't block at all, just return output stream - **[@jblz](https://github.com/jblz)** [#13](https://github.com/Automattic/vip-search-replace/pull/13)
