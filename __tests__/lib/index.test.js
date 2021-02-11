@@ -17,7 +17,9 @@ const { replace, validate } = thisPackage;
 const {
 	ARCH_MAPPING,
 	downloadBinary,
+	getInstallDir,
 	getLatestReleaseUrlForPlatformAndArch,
+	installBinary,
 	PLATFORM_MAPPING,
 } = require( '../../lib/install-go-binary' );
 
@@ -202,6 +204,53 @@ describe( 'install-go-binary', () => {
 		it( 'should fail for unsupported platform', async () => {
 			nock.disableNetConnect(); // no calls should be made
 			return expect( downloadBinary( { arch: 'gibberish', platform: 'win32' } ) ).rejects.toEqual( new Error( 'Invalid arch type' ) );
+		} );
+	} );
+
+	describe( 'getInstallDir()', () => {
+		const fsAccessSpy = jest.spyOn( fs.promises, 'access' );
+		const fsMkdirSpy = jest.spyOn( fs.promises, 'mkdir' );
+		const fsMkdTempSpy = jest.spyOn( fs.promises, 'mkdtemp' );
+
+		it( 'should return the package dir when writable', async () => {
+			fsAccessSpy.mockResolvedValue();
+			fsMkdirSpy.mockResolvedValue();
+			const binDir = await getInstallDir();
+			expect( fsAccessSpy ).toHaveBeenCalled();
+			expect( fsMkdirSpy ).toHaveBeenCalled();
+			expect( fsMkdTempSpy ).not.toHaveBeenCalled();
+			expect( binDir ).toBe( path.join( path.dirname( path.dirname( __dirname ) ), 'bin' ) );
+		} );
+
+		it( 'should return a temp dir when cannot call mkdir (recursive) on default dir', async () => {
+			fsMkdirSpy.mockRejectedValue();
+			fsMkdTempSpy.mockResolvedValue( '/tmp/vip-search-replace-89ds89f9j8g9adfadsfdas' );
+			const binDir = await getInstallDir();
+			expect( fsMkdirSpy ).toHaveBeenCalled();
+			expect( fsAccessSpy ).not.toHaveBeenCalled();
+			expect( fsMkdTempSpy ).toHaveBeenCalled();
+			expect( binDir ).toBe( '/tmp/vip-search-replace-89ds89f9j8g9adfadsfdas' );
+		} );
+
+		it( 'should return a temp dir when cannot write to default dir', async () => {
+			fsMkdirSpy.mockResolvedValue();
+			fsAccessSpy.mockRejectedValue();
+			fsMkdTempSpy.mockResolvedValue( '/tmp/vip-search-replace-213432fsdjafds99fdsa' );
+			const binDir = await getInstallDir();
+			expect( fsMkdirSpy ).toHaveBeenCalled();
+			expect( fsAccessSpy ).toHaveBeenCalled();
+			expect( fsMkdTempSpy ).toHaveBeenCalled();
+			expect( binDir ).toBe( '/tmp/vip-search-replace-213432fsdjafds99fdsa' );
+		} );
+	} );
+
+	describe( 'installBinary()', () => {
+		const fsOpenSpy = jest.spyOn( fs.promises, 'open' );
+
+		it( 'should error for unwritable file', async () => {
+			fsOpenSpy.mockRejectedValue( 'BADOPEN' );
+			await expect( installBinary() ).rejects.toBe( 'Could not open the destination file for writing: BADOPEN' );
+			expect( fsOpenSpy ).toHaveBeenCalled();
 		} );
 	} );
 } );
