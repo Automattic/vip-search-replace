@@ -1,3 +1,10 @@
+### 1.0.12 - 2021-02-11
+
+* Fall back to a temp dir when unable to access package dir - **[@jblz](https://github.com/jblz)** [#15](https://github.com/Automattic/vip-search-replace/pull/15)
+  - [`faf3502`](https://github.com/Automattic/vip-search-replace/commit/faf35020ea94f7f21883f60c69855b5880e4f113) 🐛 **fix:** Fall back to a temp dir when unable to access package dir
+  - [`dcc181f`](https://github.com/Automattic/vip-search-replace/commit/dcc181fef3fff3c9eb9fe4ad7ad31b2465297b70) ✅ **test:** Cover getInstallDir & unwritable file in installBinary
+
+
 ### 1.0.11 - 2021-02-08
 
 * Refactor install lib and script -- download binary to package dir - **[@jblz](https://github.com/jblz)** [#14](https://github.com/Automattic/vip-search-replace/pull/14)
