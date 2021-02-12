@@ -1,3 +1,9 @@
+### 1.0.13 - 2021-02-12
+
+* fix: Explicitly close file descriptor after install - **[@jblz](https://github.com/jblz)** [#16](https://github.com/Automattic/vip-search-replace/pull/16)
+  - [`2151f1c`](https://github.com/Automattic/vip-search-replace/commit/2151f1c63224ae1a47e63a3e67ced86a8bbe0b92) 🐛 **fix:** Explicitly close file descriptor after install
+
+
 ### 1.0.12 - 2021-02-11
 
 * Fall back to a temp dir when unable to access package dir - **[@jblz](https://github.com/jblz)** [#15](https://github.com/Automattic/vip-search-replace/pull/15)
