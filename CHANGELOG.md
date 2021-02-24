@@ -1,3 +1,9 @@
+### 1.0.14 - 2021-02-24
+
+* fix: Correct GOARCH. arm64, not arm - **[@jblz](https://github.com/jblz)** [#17](https://github.com/Automattic/vip-search-replace/pull/17)
+  - [`a4a5aba`](https://github.com/Automattic/vip-search-replace/commit/a4a5aba110c2ab115b3649ce1fe52247498e4a3a) 🐛 **fix:** Correct GOARCH. arm64, not arm
+
+
 ### 1.0.13 - 2021-02-12
 
 * fix: Explicitly close file descriptor after install - **[@jblz](https://github.com/jblz)** [#16](https://github.com/Automattic/vip-search-replace/pull/16)
