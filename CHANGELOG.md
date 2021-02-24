@@ -1,3 +1,9 @@
+### 1.0.15 - 2021-02-24
+
+* fix: Correctly reference the arm64 arch - **[@jblz](https://github.com/jblz)** [#18](https://github.com/Automattic/vip-search-replace/pull/18)
+  - [`8449310`](https://github.com/Automattic/vip-search-replace/commit/8449310a03688b7655e4fb3f81d889d1ba49dc58) 🐛 **fix:** Correctly reference the arm64 arch
+
+
 ### 1.0.14 - 2021-02-24
 
 * fix: Correct GOARCH. arm64, not arm - **[@jblz](https://github.com/jblz)** [#17](https://github.com/Automattic/vip-search-replace/pull/17)
