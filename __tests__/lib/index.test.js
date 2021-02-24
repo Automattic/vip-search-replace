@@ -131,7 +131,7 @@ describe( 'install-go-binary', () => {
 			expect( ARCH_MAPPING ).toEqual( {
 				ia32: '386',
 				x64: 'amd64',
-				arm: 'arm64',
+				arm64: 'arm64',
 			} );
 		} );
 	} );
@@ -152,7 +152,7 @@ describe( 'install-go-binary', () => {
 		} );
 
 		it( 'should get a proper macm1 env url', () => {
-			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'arm', platform: 'darwin' } );
+			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'arm64', platform: 'darwin' } );
 			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_darwin_arm64.gz' );
 		} );
 
@@ -162,7 +162,7 @@ describe( 'install-go-binary', () => {
 		} );
 
 		it( 'should get a proper alternative env url', () => {
-			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'arm', platform: 'freebsd' } );
+			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'arm64', platform: 'freebsd' } );
 			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_freebsd_arm64.gz' );
 		} );
 
