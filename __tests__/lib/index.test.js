@@ -141,7 +141,6 @@ describe( 'install-go-binary', () => {
 			darwin: 'darwin',
 			linux: 'linux',
 			win32: 'windows',
-			freebsd: 'freebsd',
 		} );
 	} );
 
@@ -161,9 +160,9 @@ describe( 'install-go-binary', () => {
 			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_linux_amd64.gz' );
 		} );
 
-		it( 'should get a proper alternative env url', () => {
-			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'arm64', platform: 'freebsd' } );
-			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_freebsd_arm64.gz' );
+		it( 'should get a proper 32 bit linux url', () => {
+			const url = getLatestReleaseUrlForPlatformAndArch( { arch: 'ia32', platform: 'linux' } );
+			expect( url ).toBe( 'https://github.com/Automattic/go-search-replace/releases/latest/download/go-search-replace_linux_386.gz' );
 		} );
 
 		it( 'should get a proper windows url', () => {
