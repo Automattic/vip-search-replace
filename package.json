@@ -1,6 +1,16 @@
 {
   "name": "@automattic/vip-search-replace",
   "version": "1.0.15",
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "ia32",
+    "x64",
+    "arm64"
+  ],
   "description": "A Node package interface to a Go powered search and replace package",
   "main": "lib/index.js",
   "scripts": {
