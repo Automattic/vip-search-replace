@@ -1,3 +1,10 @@
+### 1.0.16 - 2021-02-26
+
+* build: Add allowed list of os & cpu - **[@jblz](https://github.com/jblz)** [#19](https://github.com/Automattic/vip-search-replace/pull/19)
+  - [`f259189`](https://github.com/Automattic/vip-search-replace/commit/f25918997bd2917406bf39fd4a65feb786d192f9) 👷 **build:** Add allowed list of os & cpu
+  - [`c52c81f`](https://github.com/Automattic/vip-search-replace/commit/c52c81f1a500dd3c1c6533bb81d244fb3c17ce53) 👷 **build:** rm freebsd from os map & update test
+
+
 ### 1.0.15 - 2021-02-24
 
 * fix: Correctly reference the arm64 arch - **[@jblz](https://github.com/jblz)** [#18](https://github.com/Automattic/vip-search-replace/pull/18)
