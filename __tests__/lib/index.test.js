@@ -111,22 +111,18 @@ describe( 'go-search-replace', () => {
 		} );
 
 		it( 'throws a new Error when the script/binary returns a non-zero exit code', async () => {
-			async function check() {
-				try {
-					//await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
-					return await testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
-				} catch ( e ) {
-					throw new Error( e );
-				}
+			try {
+				// await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
+				await testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
+			} catch ( err ) {
+				expect( err ).toEqual( 'The search and replace process exited with a non-zero exit code: 1' );
 			}
-
-			expect( check() ).rejects.toThrowError( new Error( 'The search and replace process exited with a non-zero exit code: 1' ) );
 		} );
 	} );
 } );
 
 describe( 'install-go-binary', () => {
-	describe( 'CONSTANTS', () => {
+	describe( 'constants', () => {
 		it( 'should have correct arch mappings', () => {
 			expect( ARCH_MAPPING ).toEqual( {
 				ia32: '386',
@@ -200,7 +196,7 @@ describe( 'install-go-binary', () => {
 			await expect( downloadBinary( { arch: 'ia32', platform: 'gibberish' } ) ).rejects.toEqual( new Error( 'Invalid platform type' ) );
 		} );
 
-		it( 'should fail for unsupported platform', async () => {
+		it( 'should fail for unsupported arch', async () => {
 			nock.disableNetConnect(); // no calls should be made
 			return expect( downloadBinary( { arch: 'gibberish', platform: 'win32' } ) ).rejects.toEqual( new Error( 'Invalid arch type' ) );
 		} );
