@@ -1,3 +1,10 @@
+### v1.0.19 (2021-09-22)
+<a id="v1.0.19"></a>
+#### 🏡 Internal
+
+* [`85cb856`](https://github.com/Automattic/vip-search-replace/commit/85cb856f6dbfb52c1682a94d33584016a9e11cdd) build: update dev dependencies to fix security vulnerabilities (#31) - see: [#31](https://github.com/Automattic/vip-search-replace/issues/31)
+
+
 ### 1.0.18 - 2021-09-22
 
 * [`a9ce3f1`](https://github.com/Automattic/vip-search-replace/commit/a9ce3f18c1f589db49737a771fb29531f65ebc83) 👷 **build:** bump path-parse from 1.0.6 to 1.0.7 (#21) - see: [#21](https://github.com/Automattic/vip-search-replace/issues/21)
