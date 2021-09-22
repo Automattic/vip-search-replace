@@ -1,3 +1,8 @@
+### 1.0.17 - 2021-09-22
+
+* [`3ef72aa`](https://github.com/Automattic/vip-search-replace/commit/3ef72aaac9e1d30803dc3c9abebaafd77a461055) 👷 **build:** bump tmpl from 1.0.4 to 1.0.5 (#30) - see: [#30](https://github.com/Automattic/vip-search-replace/issues/30)
+
+
 ### 1.0.16 - 2021-02-26
 
 * build: Add allowed list of os & cpu - **[@jblz](https://github.com/jblz)** [#19](https://github.com/Automattic/vip-search-replace/pull/19)
