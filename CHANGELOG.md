@@ -1,3 +1,16 @@
+### 1.0.18 - 2021-09-22
+
+* [`a9ce3f1`](https://github.com/Automattic/vip-search-replace/commit/a9ce3f18c1f589db49737a771fb29531f65ebc83) 👷 **build:** bump path-parse from 1.0.6 to 1.0.7 (#21) - see: [#21](https://github.com/Automattic/vip-search-replace/issues/21)
+* [`1269347`](https://github.com/Automattic/vip-search-replace/commit/1269347ed9395e94e4a69850f1c968fde43cf26b) 👷 **build:** bump trim-newlines from 3.0.0 to 3.0.1 (#22) - see: [#22](https://github.com/Automattic/vip-search-replace/issues/22)
+* [`6fbeb1c`](https://github.com/Automattic/vip-search-replace/commit/6fbeb1c648bae9b5863243e5a8cbd6c2a4145956) 👷 **build:** bump hosted-git-info from 2.8.8 to 2.8.9 (#23) - see: [#23](https://github.com/Automattic/vip-search-replace/issues/23)
+* [`18d1a91`](https://github.com/Automattic/vip-search-replace/commit/18d1a9149e04ef925908f67484e851d25b86f6cf) 👷 **build:** bump ini from 1.3.5 to 1.3.8 (#24) - see: [#24](https://github.com/Automattic/vip-search-replace/issues/24), [v1](- [Commits](https://github.com/isaacs/ini/compare/v1)
+* [`211e43f`](https://github.com/Automattic/vip-search-replace/commit/211e43f0790f24ae0dde7a44009cef0b50d7417c) 👷 **build:** bump node-notifier from 8.0.0 to 8.0.2 (#25) - see: [#25](https://github.com/Automattic/vip-search-replace/issues/25)
+* [`afe462b`](https://github.com/Automattic/vip-search-replace/commit/afe462bca335096c4f29da048682622e2b428fec) 👷 **build:** bump ws from 7.3.1 to 7.5.5 (#26) - see: [#26](https://github.com/Automattic/vip-search-replace/issues/26), [7](- [Commits](https://github.com/websockets/ws/compare/7)
+* [`7c85b09`](https://github.com/Automattic/vip-search-replace/commit/7c85b09efa5ef8cf23864aea6548396f85d7feef) 👷 **build:** bump y18n from 4.0.0 to 4.0.3 (#27) - see: [#27](https://github.com/Automattic/vip-search-replace/issues/27), [y18](Bumps [y18n](https://github.com/yargs/y18), [y18](- [Release notes](https://github.com/yargs/y18), [v4](- [Changelog](https://github.com/yargs/y18n/blob/y18n-v4), [v4](- [Commits](https://github.com/yargs/y18n/compare/v4.0.0...y18n-v4)
+* [`8de1c62`](https://github.com/Automattic/vip-search-replace/commit/8de1c6204c5815aff41e93bda5272ed8129c3595) 👷 **build:** bump lodash from 4.17.20 to 4.17.21 (#28) - see: [#28](https://github.com/Automattic/vip-search-replace/issues/28), [4](- [Commits](https://github.com/lodash/lodash/compare/4)
+* [`1a4d7d4`](https://github.com/Automattic/vip-search-replace/commit/1a4d7d47e9650bc2cf9133c53c2f82f4d60c6053) 👷 **build:** bump glob-parent from 5.1.1 to 5.1.2 (#29) - see: [#29](https://github.com/Automattic/vip-search-replace/issues/29)
+
+
 ### 1.0.17 - 2021-09-22
 
 * [`3ef72aa`](https://github.com/Automattic/vip-search-replace/commit/3ef72aaac9e1d30803dc3c9abebaafd77a461055) 👷 **build:** bump tmpl from 1.0.4 to 1.0.5 (#30) - see: [#30](https://github.com/Automattic/vip-search-replace/issues/30)

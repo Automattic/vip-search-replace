@@ -1,6 +1,6 @@
 {
   "name": "@automattic/vip-search-replace",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "os": [
     "darwin",
     "linux",
