@@ -1,3 +1,10 @@
+### v1.0.20 (2022-03-02)
+<a id="v1.0.20"></a>
+#### 🏡 Internal
+
+* [#33](https://github.com/Automattic/vip-search-replace/pull/33) build(deps): bump follow-redirects from 1.13.0 to 1.14.8 ([@dependabot[bot]](https://github.com/apps/dependabot))
+
+
 ### v1.0.19 (2021-09-22)
 <a id="v1.0.19"></a>
 #### 🏡 Internal
