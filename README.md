@@ -30,3 +30,4 @@ To execute tests before committing your changes, run:
 ```bash
 npm t
 ```
+test
