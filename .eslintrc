@@ -1,10 +1,15 @@
 {
-  "extends": "wpvip",
-  "env": {
-    "jest/globals": true
+  "globals": {
+    "Binary": true,
+    "Readable": true
   },
+  "extends": [
+    "plugin:@automattic/wpvip/base"
+  ],
   "plugins": ["jest"],
   "rules": {
+    "jest/no-conditional-expect": "warn",
+    "no-process-exit": "warn",
     "no-console": "off"
   }
 }
