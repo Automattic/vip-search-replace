@@ -1,3 +1,19 @@
+### v1.1.0 (2023-05-31)
+<a id="v1.1.0"></a>
+#### 🚀 New Features
+
+* [#43](https://github.com/Automattic/vip-search-replace/pull/43) feat: Add TypeScript type definitions ([@sjinks](https://github.com/sjinks))
+
+#### 🏡 Internal
+
+* [#41](https://github.com/Automattic/vip-search-replace/pull/41) build(deps): bump json5 from 1.0.1 to 1.0.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#42](https://github.com/Automattic/vip-search-replace/pull/42) build(deps): bump minimist from 1.2.5 to 1.2.8 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#36](https://github.com/Automattic/vip-search-replace/pull/36) build(deps): bump minimatch from 3.0.4 to 3.1.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#44](https://github.com/Automattic/vip-search-replace/pull/44) ci: Migrate to GitHub Actions ([@sjinks](https://github.com/sjinks))
+* [`983a4df`](https://github.com/Automattic/vip-search-replace/commit/983a4df5b41b7e4aa271f7bba86b8bb3708e852a) chore: Add GitHub action to mark inactive issues and PRs as stale
+* [`870668a`](https://github.com/Automattic/vip-search-replace/commit/870668a5cc8b55cb77f776ad7711e016e730af83) ci: Replace CIRCLE_STAGE with CIRCLE_JOB
+
+
 ### v1.0.20 (2022-03-02)
 <a id="v1.0.20"></a>
 #### 🏡 Internal

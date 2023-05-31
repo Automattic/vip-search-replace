@@ -1,5 +1,5 @@
 [![nlm-github](https://img.shields.io/badge/github-Automattic%2Fvip--search--replace%2Fissues-F4D03F?logo=github&logoColor=white)](https://github.com/Automattic/vip-search-replace/issues)
-![nlm-version](https://img.shields.io/badge/version-1.0.20-blue?logo=version&logoColor=white)
+![nlm-version](https://img.shields.io/badge/version-1.1.0-blue?logo=version&logoColor=white)
 # VIP Search & Replace
 
 ## How to use this package?
