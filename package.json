@@ -13,6 +13,7 @@
   ],
   "description": "A Node package interface to a Go powered search and replace package",
   "main": "lib/index.js",
+  "types": "index.d.ts",
   "scripts": {
     "download-binary": "node ./bin/install-binary",
     "download-test-binary": "npm run download-binary linux x64 ./bin/go-search-replace-test",
