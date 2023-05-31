@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and Test (Node ${{ matrix.node-version.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - name: Current LTS
+            value: lts/*
+          - name: Previous LTS
+            value: lts/-1
+          - name: Latest
+            value: current
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js environment
+        uses: actions/setup-node@v3.6.0
+        with:
+          node-version: ${{ matrix.node-version.value }}
+          cache: npm
+
+      - name: Install dependencies and run tests
+        run: npm cit
