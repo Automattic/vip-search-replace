@@ -1,3 +1,10 @@
+### v1.1.1 (2023-06-01)
+<a id="v1.1.1"></a>
+#### 🐛 Bug Fixes
+
+* [#45](https://github.com/Automattic/vip-search-replace/pull/45) fix: Add index.d.ts to published files ([@sjinks](https://github.com/sjinks))
+
+
 ### v1.1.0 (2023-05-31)
 <a id="v1.1.0"></a>
 #### 🚀 New Features
