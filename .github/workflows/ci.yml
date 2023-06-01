@@ -12,6 +12,9 @@ jobs:
   build-and-test:
     name: Build and Test (Node ${{ matrix.node-version.name }})
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     strategy:
       matrix:
         node-version:
@@ -34,5 +37,12 @@ jobs:
           node-version: ${{ matrix.node-version.value }}
           cache: npm
 
-      - name: Install dependencies and run tests
-        run: npm cit
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set GH_TOKEN
+        run: echo "GH_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> "${GITHUB_ENV}"
+        if: matrix.node-version.value == 'lts/*'
+
+      - name: Run tests
+        run: npm test
