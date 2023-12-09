@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    labels:
+      - '[Status] Needs Review'
+      - 'dependencies'
+    groups:
+      testing:
+        patterns:
+          - '@jest/*'
+          - 'jest'
+      babel:
+        patterns:
+          - '@babel/*'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    labels:
+      - '[Status] Needs Review'
+      - 'dependencies'
