@@ -1,17 +1,12 @@
-/**
- * External dependencies
- */
-const nock = require( 'nock' );
+/* eslint-disable security/detect-non-literal-fs-filename */
+const { expect } = require( '@jest/globals' );
+const debugFactory = require( 'debug' );
 const fs = require( 'fs' );
+const nock = require( 'nock' );
 const os = require( 'os' );
 const path = require( 'path' );
 const { Stream } = require( 'stream' );
-const { expect } = require( '@jest/globals' );
-const debugFactory = require( 'debug' );
 
-/**
- * External dependencies
- */
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
 const {
@@ -26,7 +21,7 @@ const {
 const debug = debugFactory( 'vip-search-replace:index.test' );
 const processPath = process.cwd();
 
-let readableStream, writeableStream;
+let readableStream; let writeableStream;
 const tmpDir = fs.mkdtempSync( path.join( os.tmpdir(), 'vip-search-replace-tests-' ) );
 const readFilePath = path.join( processPath, '__tests__', 'lib', 'in-sample.sql' );
 const writeFilePath = path.join( tmpDir, 'out-sample.sql' );
@@ -45,18 +40,24 @@ afterEach( () => {
 	}
 } );
 
+/**
+ * @param {string[]} replacements
+ * @param {string|null} [customScript]
+ * @returns {Promise<{result: Stream, outFile: string | undefined}>}
+ */
 async function testHarness( replacements, customScript = null ) {
 	debug( replacements, customScript );
 	const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
 	const script = customScript || binary;
 	const result = await replace( readableStream, replacements, script );
-	await new Promise( resolve => {
+
+	await /** @type {Promise<void>} */ ( new Promise( ( resolve ) => {
 		writeableStream.on( 'finish', () => {
 			resolve();
 		} );
 
 		result.pipe( writeableStream );
-	} );
+	} ) );
 
 	let outFile;
 	debug( 'outfile exists:', fs.existsSync( writeFilePath ) );
@@ -110,14 +111,9 @@ describe( 'go-search-replace', () => {
 			expect( outFile ).not.toContain( 'thatdomain.com' );
 		} );
 
-		it( 'throws a new Error when the script/binary returns a non-zero exit code', async () => {
-			try {
-				// await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
-				await testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
-			} catch ( err ) {
-				expect( err ).toEqual( 'The search and replace process exited with a non-zero exit code: 1' );
-			}
-		} );
+		it( 'throws a new Error when the script/binary returns a non-zero exit code', () =>
+			expect( testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript ) ).rejects.toEqual( 'The search and replace process exited with a non-zero exit code: 1' ),
+		);
 	} );
 } );
 
@@ -209,7 +205,7 @@ describe( 'install-go-binary', () => {
 
 		it( 'should return the package dir when writable', async () => {
 			fsAccessSpy.mockResolvedValue();
-			fsMkdirSpy.mockResolvedValue();
+			fsMkdirSpy.mockResolvedValue( undefined );
 			const binDir = await getInstallDir();
 			expect( fsAccessSpy ).toHaveBeenCalled();
 			expect( fsMkdirSpy ).toHaveBeenCalled();
@@ -218,7 +214,7 @@ describe( 'install-go-binary', () => {
 		} );
 
 		it( 'should return a temp dir when cannot call mkdir (recursive) on default dir', async () => {
-			fsMkdirSpy.mockRejectedValue();
+			fsMkdirSpy.mockRejectedValue( undefined );
 			fsMkdTempSpy.mockResolvedValue( '/tmp/vip-search-replace-89ds89f9j8g9adfadsfdas' );
 			const binDir = await getInstallDir();
 			expect( fsMkdirSpy ).toHaveBeenCalled();
@@ -228,8 +224,8 @@ describe( 'install-go-binary', () => {
 		} );
 
 		it( 'should return a temp dir when cannot write to default dir', async () => {
-			fsMkdirSpy.mockResolvedValue();
-			fsAccessSpy.mockRejectedValue();
+			fsMkdirSpy.mockResolvedValue( undefined );
+			fsAccessSpy.mockRejectedValue( undefined );
 			fsMkdTempSpy.mockResolvedValue( '/tmp/vip-search-replace-213432fsdjafds99fdsa' );
 			const binDir = await getInstallDir();
 			expect( fsMkdirSpy ).toHaveBeenCalled();
