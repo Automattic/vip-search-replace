@@ -1,11 +1,11 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 const { expect } = require( '@jest/globals' );
 const debugFactory = require( 'debug' );
-const fs = require( 'fs' );
 const nock = require( 'nock' );
-const os = require( 'os' );
-const path = require( 'path' );
-const { Stream } = require( 'stream' );
+const { createReadStream, createWriteStream, existsSync, mkdtempSync, promises, unlinkSync } = require( 'node:fs' );
+const { tmpdir } = require( 'node:os' );
+const path = require( 'node:path' );
+const { Stream } = require( 'node:stream' );
 
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
@@ -21,22 +21,23 @@ const {
 const debug = debugFactory( 'vip-search-replace:index.test' );
 const processPath = process.cwd();
 
-let readableStream; let writeableStream;
-const tmpDir = fs.mkdtempSync( path.join( os.tmpdir(), 'vip-search-replace-tests-' ) );
+let readableStream;
+let writeableStream;
+const tmpDir = mkdtempSync( path.join( tmpdir(), 'vip-search-replace-tests-' ) );
 const readFilePath = path.join( processPath, '__tests__', 'lib', 'in-sample.sql' );
 const writeFilePath = path.join( tmpDir, 'out-sample.sql' );
 const nonZeroExitCodeScript = path.join( processPath, 'bin', 'non-zero-exit-code.sh' );
 
 beforeEach( () => {
-	readableStream = fs.createReadStream( readFilePath );
-	writeableStream = fs.createWriteStream( writeFilePath, { encoding: 'utf8' } );
+	readableStream = createReadStream( readFilePath );
+	writeableStream = createWriteStream( writeFilePath, { encoding: 'utf8' } );
 } );
 
 afterEach( () => {
 	readableStream.close();
 	writeableStream.close();
-	if ( fs.existsSync( writeFilePath ) ) {
-		fs.unlinkSync( writeFilePath );
+	if ( existsSync( writeFilePath ) ) {
+		unlinkSync( writeFilePath );
 	}
 } );
 
@@ -60,9 +61,9 @@ async function testHarness( replacements, customScript = null ) {
 	} ) );
 
 	let outFile;
-	debug( 'outfile exists:', fs.existsSync( writeFilePath ) );
-	if ( fs.existsSync( writeFilePath ) ) {
-		outFile = fs.readFileSync( writeFilePath, 'utf-8' );
+	debug( 'outfile exists:', existsSync( writeFilePath ) );
+	if ( existsSync( writeFilePath ) ) {
+		outFile = await promises.readFile( writeFilePath, 'utf-8' );
 	}
 
 	return { result, outFile };
@@ -199,9 +200,9 @@ describe( 'install-go-binary', () => {
 	} );
 
 	describe( 'getInstallDir()', () => {
-		const fsAccessSpy = jest.spyOn( fs.promises, 'access' );
-		const fsMkdirSpy = jest.spyOn( fs.promises, 'mkdir' );
-		const fsMkdTempSpy = jest.spyOn( fs.promises, 'mkdtemp' );
+		const fsAccessSpy = jest.spyOn( promises, 'access' );
+		const fsMkdirSpy = jest.spyOn( promises, 'mkdir' );
+		const fsMkdTempSpy = jest.spyOn( promises, 'mkdtemp' );
 
 		it( 'should return the package dir when writable', async () => {
 			fsAccessSpy.mockResolvedValue();
@@ -236,7 +237,7 @@ describe( 'install-go-binary', () => {
 	} );
 
 	describe( 'installBinary()', () => {
-		const fsOpenSpy = jest.spyOn( fs.promises, 'open' );
+		const fsOpenSpy = jest.spyOn( promises, 'open' );
 
 		it( 'should error for unwritable file', async () => {
 			fsOpenSpy.mockRejectedValue( 'BADOPEN' );
