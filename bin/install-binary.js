@@ -44,8 +44,8 @@ if ( [ '-h', 'help', '--help', 'usage' ].includes( platform ) ) {
 }
 
 installBinary( { arch, platform, writePath } )
-	.then( result => console.log( `✅ Installed ${ result.platform }:${ result.arch } binary to: ${ result.path }` ) )
-	.catch( err => {
+	.then( ( result ) => console.log( `✅ Installed ${ result.platform }:${ result.arch } binary to: ${ result.path }` ) )
+	.catch( ( err ) => {
 		console.error( 'Installed Failed: Check command line arguments and file system settings.' );
 		console.error( err );
 		printUsage();

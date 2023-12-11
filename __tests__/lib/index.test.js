@@ -1,17 +1,12 @@
-/**
- * External dependencies
- */
-const nock = require( 'nock' );
-const fs = require( 'fs' );
-const os = require( 'os' );
-const path = require( 'path' );
-const { Stream } = require( 'stream' );
+/* eslint-disable security/detect-non-literal-fs-filename */
 const { expect } = require( '@jest/globals' );
 const debugFactory = require( 'debug' );
+const nock = require( 'nock' );
+const { createReadStream, createWriteStream, existsSync, mkdtempSync, promises, unlinkSync } = require( 'node:fs' );
+const { tmpdir } = require( 'node:os' );
+const path = require( 'node:path' );
+const { Stream } = require( 'node:stream' );
 
-/**
- * External dependencies
- */
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
 const {
@@ -26,42 +21,49 @@ const {
 const debug = debugFactory( 'vip-search-replace:index.test' );
 const processPath = process.cwd();
 
-let readableStream, writeableStream;
-const tmpDir = fs.mkdtempSync( path.join( os.tmpdir(), 'vip-search-replace-tests-' ) );
+let readableStream;
+let writeableStream;
+const tmpDir = mkdtempSync( path.join( tmpdir(), 'vip-search-replace-tests-' ) );
 const readFilePath = path.join( processPath, '__tests__', 'lib', 'in-sample.sql' );
 const writeFilePath = path.join( tmpDir, 'out-sample.sql' );
 const nonZeroExitCodeScript = path.join( processPath, 'bin', 'non-zero-exit-code.sh' );
 
 beforeEach( () => {
-	readableStream = fs.createReadStream( readFilePath );
-	writeableStream = fs.createWriteStream( writeFilePath, { encoding: 'utf8' } );
+	readableStream = createReadStream( readFilePath );
+	writeableStream = createWriteStream( writeFilePath, { encoding: 'utf8' } );
 } );
 
 afterEach( () => {
 	readableStream.close();
 	writeableStream.close();
-	if ( fs.existsSync( writeFilePath ) ) {
-		fs.unlinkSync( writeFilePath );
+	if ( existsSync( writeFilePath ) ) {
+		unlinkSync( writeFilePath );
 	}
 } );
 
+/**
+ * @param {string[]} replacements
+ * @param {string|null} [customScript]
+ * @returns {Promise<{result: Stream, outFile: string | undefined}>}
+ */
 async function testHarness( replacements, customScript = null ) {
 	debug( replacements, customScript );
 	const binary = process.env.CI === 'true' ? './bin/go-search-replace-test' : null;
 	const script = customScript || binary;
 	const result = await replace( readableStream, replacements, script );
-	await new Promise( resolve => {
+
+	await /** @type {Promise<void>} */ ( new Promise( ( resolve ) => {
 		writeableStream.on( 'finish', () => {
 			resolve();
 		} );
 
 		result.pipe( writeableStream );
-	} );
+	} ) );
 
 	let outFile;
-	debug( 'outfile exists:', fs.existsSync( writeFilePath ) );
-	if ( fs.existsSync( writeFilePath ) ) {
-		outFile = fs.readFileSync( writeFilePath, 'utf-8' );
+	debug( 'outfile exists:', existsSync( writeFilePath ) );
+	if ( existsSync( writeFilePath ) ) {
+		outFile = await promises.readFile( writeFilePath, 'utf-8' );
 	}
 
 	return { result, outFile };
@@ -110,14 +112,9 @@ describe( 'go-search-replace', () => {
 			expect( outFile ).not.toContain( 'thatdomain.com' );
 		} );
 
-		it( 'throws a new Error when the script/binary returns a non-zero exit code', async () => {
-			try {
-				// await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
-				await testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript );
-			} catch ( err ) {
-				expect( err ).toEqual( 'The search and replace process exited with a non-zero exit code: 1' );
-			}
-		} );
+		it( 'throws a new Error when the script/binary returns a non-zero exit code', () =>
+			expect( testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript ) ).rejects.toEqual( 'The search and replace process exited with a non-zero exit code: 1' ),
+		);
 	} );
 } );
 
@@ -203,13 +200,13 @@ describe( 'install-go-binary', () => {
 	} );
 
 	describe( 'getInstallDir()', () => {
-		const fsAccessSpy = jest.spyOn( fs.promises, 'access' );
-		const fsMkdirSpy = jest.spyOn( fs.promises, 'mkdir' );
-		const fsMkdTempSpy = jest.spyOn( fs.promises, 'mkdtemp' );
+		const fsAccessSpy = jest.spyOn( promises, 'access' );
+		const fsMkdirSpy = jest.spyOn( promises, 'mkdir' );
+		const fsMkdTempSpy = jest.spyOn( promises, 'mkdtemp' );
 
 		it( 'should return the package dir when writable', async () => {
 			fsAccessSpy.mockResolvedValue();
-			fsMkdirSpy.mockResolvedValue();
+			fsMkdirSpy.mockResolvedValue( undefined );
 			const binDir = await getInstallDir();
 			expect( fsAccessSpy ).toHaveBeenCalled();
 			expect( fsMkdirSpy ).toHaveBeenCalled();
@@ -218,7 +215,7 @@ describe( 'install-go-binary', () => {
 		} );
 
 		it( 'should return a temp dir when cannot call mkdir (recursive) on default dir', async () => {
-			fsMkdirSpy.mockRejectedValue();
+			fsMkdirSpy.mockRejectedValue( undefined );
 			fsMkdTempSpy.mockResolvedValue( '/tmp/vip-search-replace-89ds89f9j8g9adfadsfdas' );
 			const binDir = await getInstallDir();
 			expect( fsMkdirSpy ).toHaveBeenCalled();
@@ -228,8 +225,8 @@ describe( 'install-go-binary', () => {
 		} );
 
 		it( 'should return a temp dir when cannot write to default dir', async () => {
-			fsMkdirSpy.mockResolvedValue();
-			fsAccessSpy.mockRejectedValue();
+			fsMkdirSpy.mockResolvedValue( undefined );
+			fsAccessSpy.mockRejectedValue( undefined );
 			fsMkdTempSpy.mockResolvedValue( '/tmp/vip-search-replace-213432fsdjafds99fdsa' );
 			const binDir = await getInstallDir();
 			expect( fsMkdirSpy ).toHaveBeenCalled();
@@ -240,7 +237,7 @@ describe( 'install-go-binary', () => {
 	} );
 
 	describe( 'installBinary()', () => {
-		const fsOpenSpy = jest.spyOn( fs.promises, 'open' );
+		const fsOpenSpy = jest.spyOn( promises, 'open' );
 
 		it( 'should error for unwritable file', async () => {
 			fsOpenSpy.mockRejectedValue( 'BADOPEN' );
