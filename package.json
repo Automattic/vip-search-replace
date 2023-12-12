@@ -1,6 +1,6 @@
 {
   "name": "@automattic/vip-search-replace",
-  "version": "1.1.2",
+  "version": "1.1.1",
   "os": [
     "darwin",
     "linux",
@@ -19,8 +19,7 @@
     "download-test-binary": "npm run download-binary linux x64 ./bin/go-search-replace-test",
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "jest",
-    "posttest": "nlm verify"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
