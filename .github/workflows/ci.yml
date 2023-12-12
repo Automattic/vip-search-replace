@@ -46,3 +46,6 @@ jobs:
 
       - name: Run tests
         run: npm test
+
+      - name: nlm verify
+        run: npx nlm verify
