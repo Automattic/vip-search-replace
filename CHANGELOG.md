@@ -1,3 +1,45 @@
+### v1.1.3 (2024-01-11)
+<a id="v1.1.3"></a>
+
+#### 🔼 Dependencies
+
+* [#75](https://github.com/Automattic/vip-search-replace/pull/75) chore(deps): bump `follow-redirects` to 1.15.4 to fix CVE-2023-26159 ([@sjinks](https://github.com/sjinks))
+
+#### 🏡 Internal
+
+* [#71](https://github.com/Automattic/vip-search-replace/pull/71) New develop release: 1.1.3-dev.0 ([@github-actions[bot]](https://github.com/apps/github-actions))
+* [#74](https://github.com/Automattic/vip-search-replace/pull/74) build(deps): bump follow-redirects from 1.15.3 to 1.15.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#72](https://github.com/Automattic/vip-search-replace/pull/72) build(deps): bump actions/setup-node from 4.0.0 to 4.0.1 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#73](https://github.com/Automattic/vip-search-replace/pull/73) build(deps-dev): bump the eslint group with 1 update ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#76](https://github.com/Automattic/vip-search-replace/pull/76) ci: update publish workflow ([@sjinks](https://github.com/sjinks))
+* [`3a18f91`](https://github.com/Automattic/vip-search-replace/commit/3a18f91f0d7441165853987118c49073fa4c2c48) chore: reset package version
+
+
+### v1.1.2
+<a id="v1.1.2"></a>
+#### 🏡 Internal
+
+* [#50](https://github.com/Automattic/vip-search-replace/pull/50) Update NPM publishing workflows (yet again) ([@gudmdharalds](https://github.com/gudmdharalds))
+* [#52](https://github.com/Automattic/vip-search-replace/pull/52) build(deps-dev): bump @babel/traverse from 7.22.4 to 7.23.2 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#47](https://github.com/Automattic/vip-search-replace/pull/47) build(deps-dev): bump word-wrap from 1.2.3 to 1.2.4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#46](https://github.com/Automattic/vip-search-replace/pull/46) build(deps): bump tough-cookie from 4.0.0 to 4.1.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#53](https://github.com/Automattic/vip-search-replace/pull/53) chore: configure Dependabot ([@sjinks](https://github.com/sjinks))
+* [#57](https://github.com/Automattic/vip-search-replace/pull/57) build(deps-dev): bump the testing group with 1 update ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#56](https://github.com/Automattic/vip-search-replace/pull/56) build(deps): bump actions/checkout from 3 to 4 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#58](https://github.com/Automattic/vip-search-replace/pull/58) build(deps-dev): bump the babel group with 1 update ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#55](https://github.com/Automattic/vip-search-replace/pull/55) build(deps): bump actions/setup-node from 3.6.0 to 4.0.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#61](https://github.com/Automattic/vip-search-replace/pull/61) build(deps-dev): bump nock from 13.0.7 to 13.4.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#60](https://github.com/Automattic/vip-search-replace/pull/60) build(deps-dev): bump nlm from 5.6.0 to 5.8.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#54](https://github.com/Automattic/vip-search-replace/pull/54) build(deps): bump Automattic/vip-actions from 0.1.2 to 0.2.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#63](https://github.com/Automattic/vip-search-replace/pull/63) build(deps): bump follow-redirects from 1.14.8 to 1.15.3 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#64](https://github.com/Automattic/vip-search-replace/pull/64) ci: fix workflow permissions ([@sjinks](https://github.com/sjinks))
+* [#62](https://github.com/Automattic/vip-search-replace/pull/62) chore(dev-deps): update `@automattic/eslint-plugin-wpvip` ([@sjinks](https://github.com/sjinks))
+* [#66](https://github.com/Automattic/vip-search-replace/pull/66) ci: run `nlm verify` manually because it breaks the publish workflow ([@sjinks](https://github.com/sjinks))
+* [#67](https://github.com/Automattic/vip-search-replace/pull/67) build(deps): bump Automattic/vip-actions from 0.2.0 to 0.3.0 ([@dependabot[bot]](https://github.com/apps/dependabot))
+* [#69](https://github.com/Automattic/vip-search-replace/pull/69) ci: use conventional commits to keep nlm happy ([@sjinks](https://github.com/sjinks))
+* [`ab701c3`](https://github.com/Automattic/vip-search-replace/commit/ab701c3729bf6d9f674751a93149702693409c27) chore: bump package version
+
+
 ### v1.1.1 (2023-06-01)
 <a id="v1.1.1"></a>
 #### 🐛 Bug Fixes
