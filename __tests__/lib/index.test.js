@@ -241,7 +241,7 @@ describe( 'install-go-binary', () => {
 
 		it( 'should error for unwritable file', async () => {
 			fsOpenSpy.mockRejectedValue( 'BADOPEN' );
-			await expect( installBinary() ).rejects.toEqual( new Error( 'Could not open the destination file for writing: BADOPEN' ) );
+			await expect( installBinary() ).rejects.toThrow( 'Could not open the destination file for writing: BADOPEN' );
 			expect( fsOpenSpy ).toHaveBeenCalled();
 		} );
 	} );
