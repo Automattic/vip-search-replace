@@ -113,7 +113,7 @@ describe( 'go-search-replace', () => {
 		} );
 
 		it( 'throws a new Error when the script/binary returns a non-zero exit code', () =>
-			expect( testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript ) ).rejects.toEqual( new Error( 'The search and replace process exited with a non-zero exit code: 1' ) ),
+			expect( testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript ) ).rejects.toThrow( 'The search and replace process exited with a non-zero exit code: 1' ),
 		);
 	} );
 } );
