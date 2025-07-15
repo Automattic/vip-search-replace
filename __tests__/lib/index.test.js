@@ -85,11 +85,11 @@ describe( 'go-search-replace', () => {
 
 		it( 'fails if an array is not passed as the second argument', () => {
 			expect( validate( readableStream, 'replace-string' ) ).toBe( false );
-			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be a array.' );
+			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be an array.' );
 			expect( validate( readableStream, 234 ) ).toBe( false );
-			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be a array.' );
+			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be an array.' );
 			expect( validate( readableStream, new Set( [ 'thing' ] ) ) ).toBe( false );
-			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be a array.' );
+			expect( console.error ).toHaveBeenLastCalledWith( 'The second argument must be an array.' );
 			expect( console.error ).toHaveBeenCalledTimes( 3 );
 		} );
 
@@ -113,7 +113,7 @@ describe( 'go-search-replace', () => {
 		} );
 
 		it( 'throws a new Error when the script/binary returns a non-zero exit code', () =>
-			expect( testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript ) ).rejects.toEqual( 'The search and replace process exited with a non-zero exit code: 1' ),
+			expect( testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript ) ).rejects.toThrow( 'The search and replace process exited with a non-zero exit code: 1' ),
 		);
 	} );
 } );
@@ -241,7 +241,7 @@ describe( 'install-go-binary', () => {
 
 		it( 'should error for unwritable file', async () => {
 			fsOpenSpy.mockRejectedValue( 'BADOPEN' );
-			await expect( installBinary() ).rejects.toBe( 'Could not open the destination file for writing: BADOPEN' );
+			await expect( installBinary() ).rejects.toThrow( 'Could not open the destination file for writing: BADOPEN' );
 			expect( fsOpenSpy ).toHaveBeenCalled();
 		} );
 	} );
