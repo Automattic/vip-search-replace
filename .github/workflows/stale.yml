@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   stale:
     name: Stale
@@ -12,4 +15,4 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - uses: Automattic/vip-actions/stale@trunk
+      - uses: Automattic/vip-actions/stale@a10bde8914496b7386d10fc5df9b4ffa2fd72ef1 # trunk
