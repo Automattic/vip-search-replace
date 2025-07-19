@@ -57,8 +57,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "debug": "^4.2.0",
-    "follow-redirects": "^1.15.4"
+    "debug": "^4.2.0"
   },
   "babel": {}
 }
