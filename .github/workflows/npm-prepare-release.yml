@@ -14,10 +14,16 @@ on:
           - minor
           - major
 
+permissions:
+  contents: read
+
 jobs:
   prepare:
     name: Prepare a new npm release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Check out the source code
         uses: actions/checkout@v4
