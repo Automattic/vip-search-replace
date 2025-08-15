@@ -26,7 +26,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Check out the source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run npm-prepare-release
         uses: Automattic/vip-actions/npm-prepare-release@7b98dcb98d652bf02037977b1b85abb971c345d0 # v0.7.1
