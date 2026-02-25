@@ -4,10 +4,14 @@ on:
   pull_request:
     types: [closed]
 
+permissions:
+  contents: read
+
 jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
+    environment: npm-publish
     if: contains( github.event.pull_request.labels.*.name, '[ Type ] NPM version update' ) && startsWith( github.head_ref, 'release/') && github.event.pull_request.merged == true
     permissions:
       contents: write
@@ -17,7 +21,7 @@ jobs:
       - uses: Automattic/vip-actions/npm-publish@c8022b66e78461df4f802b935dc0dbb8399f96bc # v0.7.4
         with:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          USE_TRUSTED_PUBLISHING: 'true'
           PROVENANCE: 'true'
           CONVENTIONAL_COMMITS: 'true'
           SKIP_BUMP_TO_DEV: 'true'
