@@ -2,7 +2,8 @@
 const { expect } = require( '@jest/globals' );
 const debugFactory = require( 'debug' );
 const nock = require( 'nock' );
-const { createReadStream, createWriteStream, existsSync, mkdtempSync, promises, unlinkSync } = require( 'node:fs' );
+const fs = require( 'node:fs' );
+const { createReadStream, createWriteStream, existsSync, mkdtempSync, promises, unlinkSync } = fs;
 const { tmpdir } = require( 'node:os' );
 const path = require( 'node:path' );
 const { Stream } = require( 'node:stream' );
@@ -233,6 +234,34 @@ describe( 'install-go-binary', () => {
 			expect( fsAccessSpy ).toHaveBeenCalled();
 			expect( fsMkdTempSpy ).toHaveBeenCalled();
 			expect( binDir ).toBe( '/tmp/vip-search-replace-213432fsdjafds99fdsa' );
+		} );
+
+		it( 'should register a synchronous cleanup on process exit when using temp dir', async () => {
+			const tempDirPath = '/tmp/vip-search-replace-sync-exit-test';
+			fsMkdirSpy.mockRejectedValueOnce( undefined );
+			fsMkdTempSpy.mockResolvedValueOnce( tempDirPath );
+
+			/** @type {Function|undefined} */
+			let capturedExitHandler;
+			const processOnceMock = jest.spyOn( process, 'once' ).mockImplementation( ( event, handler ) => {
+				if ( event === 'exit' ) {
+					capturedExitHandler = handler;
+				}
+				return process;
+			} );
+			const fsRmSyncSpy = jest.spyOn( fs, 'rmSync' ).mockImplementation( () => {} );
+
+			try {
+				await getInstallDir();
+
+				expect( typeof capturedExitHandler ).toBe( 'function' );
+				capturedExitHandler();
+
+				expect( fsRmSyncSpy ).toHaveBeenCalledWith( tempDirPath, { recursive: true, force: true } );
+			} finally {
+				processOnceMock.mockRestore();
+				fsRmSyncSpy.mockRestore();
+			}
 		} );
 	} );
 
