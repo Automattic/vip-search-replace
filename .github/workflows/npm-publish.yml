@@ -18,7 +18,7 @@ jobs:
       id-token: write
       pull-requests: write
     steps:
-      - uses: Automattic/vip-actions/npm-publish@438cd00aac2463a2dbfb4a747ad7b1ac67a2575a # v0.7.5
+      - uses: Automattic/vip-actions/npm-publish@6bf9fde7ac8acce516488384357e3e6fb28669cf # v0.7.6
         with:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USE_TRUSTED_PUBLISHING: 'true'
