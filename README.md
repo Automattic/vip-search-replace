@@ -6,6 +6,7 @@
 
 ```js
 const { replace } = require( '@automattic/vip-search-replace' );
+const { pipeline } = require( 'node:stream/promises' );
 
 // Create a readable and writeable stream. Can be any stream: File, std, etc...
 const readableStream = fs.createReadStream( 'path_to_sql_file.sql' );
@@ -13,8 +14,12 @@ const writeableStream = fs.createWriteStream( 'path_to_sql_file_replaced.sql', {
 
 const result = await replace( readableStream, [ 'thisdomain.com', 'thatdomain.com' ] );
 
-result.pipe( writeableStream );
+await pipeline( result, writeableStream );
 ```
+
+The returned stream can fail after producing output if the child process exits
+unsuccessfully. Handle errors from the stream or pipeline and discard any
+incomplete output.
 
 ## Contributing
 

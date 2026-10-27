@@ -6,7 +6,7 @@ const fs = require( 'node:fs' );
 const { createReadStream, createWriteStream, existsSync, mkdtempSync, promises, unlinkSync } = fs;
 const { tmpdir } = require( 'node:os' );
 const path = require( 'node:path' );
-const { Stream } = require( 'node:stream' );
+const { Readable, Stream } = require( 'node:stream' );
 
 const thisPackage = require( '../../' );
 const { replace, validate } = thisPackage;
@@ -116,6 +116,27 @@ describe( 'go-search-replace', () => {
 		it( 'throws a new Error when the script/binary returns a non-zero exit code', () =>
 			expect( testHarness( [ 'thisdomain.com', 'thatdomain.com' ], nonZeroExitCodeScript ) ).rejects.toThrow( 'The search and replace process exited with a non-zero exit code: 1' ),
 		);
+
+		it( 'reports a child failure after output through the returned stream', async () => {
+			const script = 'process.stdout.write("partial"); setTimeout(() => process.exit(7), 50)';
+			const result = await replace( Readable.from( [] ), [ '-e', script ], process.execPath );
+			let output = '';
+			await expect( ( async () => {
+				for await ( const chunk of result ) {
+					output += chunk.toString();
+				}
+			} )() ).rejects.toThrow( 'non-zero exit code: 7' );
+			expect( output ).toBe( 'partial' );
+		} );
+
+		it( 'returns an empty stream when the child exits successfully without output', async () => {
+			const result = await replace( Readable.from( [] ), [ '-e', 'process.exit(0)' ], process.execPath );
+			const chunks = [];
+			for await ( const chunk of result ) {
+				chunks.push( chunk );
+			}
+			expect( chunks ).toEqual( [] );
+		} );
 	} );
 } );
 
