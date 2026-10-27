@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/Automattic/vip-search-replace#readme",
   "devDependencies": {
-    "@automattic/eslint-plugin-wpvip": "^1.0.0",
+    "@automattic/eslint-plugin-wpvip": "^2.0.1",
     "@jest/globals": "^30.2.0",
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
