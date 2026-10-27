@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Automattic/vip-search-replace.git"
+    "url": "git+https://github.com/Automattic/vip-search-replace.git"
   },
   "author": "WordPress VIP",
   "license": "MIT",
@@ -58,5 +58,9 @@
   "dependencies": {
     "debug": "^4.2.0"
   },
-  "babel": {}
+  "babel": {},
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "unrs-resolver@1.12.2": true
+  }
 }
